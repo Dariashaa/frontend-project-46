@@ -9,7 +9,6 @@ const parser = (filepath) => {
   return JSON.parse(fileContent);
 };
 
-
 const sortObj = (obj) => {
   const sortedKeys = _.sortBy(Object.keys(obj));
   const sortedObj = sortedKeys.reduce((acc, cur) => {
@@ -31,7 +30,6 @@ const diffJSON = (filepath1, filepath2) => {
     if (keys2Obj.includes(keyObj1) && valueObj1 === sortedObj2[keyObj1]) {
       result.push(`  ${keyObj1}: ${valueObj1}`);
       _.remove(keys2Obj, (n) => n === keyObj1);
-
     } else if (keys2Obj.includes(keyObj1) && valueObj1 !== sortedObj2[keyObj1]) {
       result.push(`- ${keyObj1}: ${valueObj1}`);
       result.push(`+ ${keyObj1}: ${sortedObj2[keyObj1]}`);
