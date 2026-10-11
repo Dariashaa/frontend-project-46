@@ -11,4 +11,4 @@ lint-fix:
 	npx oxfmt && npx oxlint --fix
 
 test-coverage:
-	npm test-coverage
+	npm run test-coverage
