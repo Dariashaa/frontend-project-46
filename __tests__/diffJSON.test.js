@@ -1,6 +1,6 @@
 // @ts-check
 import { expect, test } from "vitest";
-import diffJSON from "../src/diffJSON";
+import diff from "../src/diff";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
@@ -15,20 +15,23 @@ const readFile = (/** @type {string} */ filename) => {
   return content.replace(/\r\n/g, "\n").replace(/\r/g, "\n").trim();
 };
 
-test("diffJSON on file1 and file2", () => {
-  expect(diffJSON(getFixturePath("file1.json"), getFixturePath("file2.json"))).toEqual(
-    readFile("expected_flat.txt"),
-  );
+const formats = [
+  ["json", "json", "expected_flat.txt"],
+  ["yaml", "yaml", "expected_flat.txt"],
+];
+
+const formatsEmpty = [["json", "file_empty.json", "expected_empty.txt"]];
+
+test.each(formats)("diffSON c форматами .%s и .%s", (ext1, ext2, expected) => {
+  const file1 = getFixturePath(`file1.${ext1}`);
+  const file2 = getFixturePath(`file2.${ext2}`);
+
+  expect(diff(file1, file2)).toEqual(readFile(expected));
 });
 
-test("diffJSON on file1 and empty file", () => {
-  expect(diffJSON(getFixturePath("file1.json"), getFixturePath("file_empty.json"))).toEqual(
-    readFile("expected_empty.txt"),
-  );
-});
+test.each(formatsEmpty)("diffSON c пустыми вторыми файлами", (ext1, ext2, expected) => {
+  const file1 = getFixturePath(`file1.${ext1}`);
+  const file2 = getFixturePath(ext2);
 
-test("diffJSON on file1 and file2", () => {
-  expect(diffJSON(getFixturePath("file_empty.json"), getFixturePath("file2.json"))).toEqual(
-    readFile("expected_empty_file2.txt"),
-  );
+  expect(diff(file1, file2)).toEqual(readFile(expected));
 });

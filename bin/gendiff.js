@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import diffJSON from "../src/diffJSON.js";
+import diffJSON from "../src/diff.js";
 const program = new Command();
 
 program

@@ -1,13 +1,5 @@
 import _ from "lodash";
-import fs from "node:fs";
-import { cwd } from "node:process";
-import path from "node:path";
-
-const parser = (filepath) => {
-  const absolutePath = path.resolve(cwd(), filepath);
-  const fileContent = fs.readFileSync(absolutePath, "utf-8");
-  return JSON.parse(fileContent);
-};
+import parser from "./parsers";
 
 const sortObj = (obj) => {
   const sortedKeys = _.sortBy(Object.keys(obj));
@@ -19,7 +11,7 @@ const sortObj = (obj) => {
   return sortedObj;
 };
 
-const diffJSON = (filepath1, filepath2) => {
+const diff = (filepath1, filepath2) => {
   let result = [];
   const sortedObj1 = sortObj(parser(filepath1));
   const sortedObj2 = sortObj(parser(filepath2));
@@ -50,4 +42,4 @@ const diffJSON = (filepath1, filepath2) => {
   return `{\n${indentedLines}\n}`;
 };
 
-export default diffJSON;
+export default diff;
