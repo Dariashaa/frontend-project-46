@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import diffJSON from "../src/diff.js";
+import diff from "../src/diff.js";
 const program = new Command();
 
 program
@@ -10,7 +10,7 @@ program
   .option("-f, --format [type]", "output format")
   .arguments("<filepath1> <filepath2>")
   .action((filepath1, filepath2) => {
-    console.log(diffJSON(filepath1, filepath2));
+    console.log(diff(filepath1, filepath2));
   });
 
 program.parse();

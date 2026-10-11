@@ -1,5 +1,5 @@
 import _ from "lodash";
-import parser from "./parsers";
+import parser from "./parsers.js";
 
 const sortObj = (obj) => {
   const sortedKeys = _.sortBy(Object.keys(obj));

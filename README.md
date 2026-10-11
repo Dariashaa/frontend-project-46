@@ -25,6 +25,9 @@ cd frontend-project-46
 
 <!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
 
+Пример работы библиотеки на json-файлах - https://asciinema.org/a/2N4RfPYi8wAzS6Lh
+Пример работы библиотеки на yaml-файлах - https://asciinema.org/a/Mj6WAv0FuiASeEu9
+
 ---
 
 <details>
