@@ -1,42 +1,26 @@
 import _ from "lodash";
 import parser from "./parsers.js";
 
-const sortObj = (obj) => {
-  const sortedKeys = _.sortBy(Object.keys(obj));
-  const sortedObj = sortedKeys.reduce((acc, cur) => {
-    acc[cur] = obj[cur];
-    return acc;
-  }, {});
-
-  return sortedObj;
-};
-
 const diff = (filepath1, filepath2) => {
   let result = [];
-  const sortedObj1 = sortObj(parser(filepath1));
-  const sortedObj2 = sortObj(parser(filepath2));
-  const keys2Obj = Object.keys(sortedObj2);
+  const obj1 = parser(filepath1);
+  const obj2 = parser(filepath2);
 
-  Object.entries(sortedObj1).forEach(([keyObj1, valueObj1]) => {
-    // обработка случая когда ключ есть у обоих
-    if (keys2Obj.includes(keyObj1) && valueObj1 === sortedObj2[keyObj1]) {
-      result.push(`  ${keyObj1}: ${valueObj1}`);
-      _.remove(keys2Obj, (n) => n === keyObj1);
-    } else if (keys2Obj.includes(keyObj1) && valueObj1 !== sortedObj2[keyObj1]) {
-      result.push(`- ${keyObj1}: ${valueObj1}`);
-      result.push(`+ ${keyObj1}: ${sortedObj2[keyObj1]}`);
-      _.remove(keys2Obj, (n) => n === keyObj1);
+  const keys = _.union(Object.keys(obj1), Object.keys(obj2));
+  const sortedKeys = _.sortBy(keys);
 
-      // ключ есть только у первого
+  for (const key of sortedKeys) {
+    if (!Object.hasOwn(obj1, key)) {
+      result.push(`+ ${key}: ${obj2[key]}`);
+    } else if (!Object.hasOwn(obj2, key)) {
+      result.push(`- ${key}: ${obj1[key]}`);
+    } else if (obj2[key] !== obj1[key]) {
+      result.push(`- ${key}: ${obj1[key]}`);
+      result.push(`+ ${key}: ${obj2[key]}`);
     } else {
-      result.push(`- ${keyObj1}: ${valueObj1}`);
+      result.push(`  ${key}: ${obj1[key]}`);
     }
-  });
-
-  // оставшиеся ключи у второго
-  keys2Obj.forEach((key) => {
-    result.push(`+ ${key}: ${sortedObj2[key]}`);
-  });
+  }
 
   const indentedLines = result.map((line) => `  ${line}`).join("\n");
   return `{\n${indentedLines}\n}`;
