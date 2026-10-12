@@ -4,6 +4,7 @@ import diff from "../src/diff";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import stylish from "../src/stylish";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,22 +17,19 @@ const readFile = (/** @type {string} */ filename) => {
 };
 
 const formats = [
-  ["json", "json", "expected_flat.txt"],
-  ["yaml", "yaml", "expected_flat.txt"],
+  ["file1long.json", "file2long.json", "expected_long.txt"],
+  ["file1long.yaml", "file2long.yaml", "expected_long.txt"],
 ];
 
-const formatsEmpty = [["json", "file_empty.json", "expected_empty.txt"]];
-
-test.each(formats)("diffSON c форматами .%s и .%s", (ext1, ext2, expected) => {
-  const file1 = getFixturePath(`file1.${ext1}`);
-  const file2 = getFixturePath(`file2.${ext2}`);
+test.each(formats)("diffSON c форматами %s и %s", (ext1, ext2, expected) => {
+  const file1 = getFixturePath(ext1);
+  const file2 = getFixturePath(ext2);
 
   expect(diff(file1, file2)).toEqual(readFile(expected));
 });
 
-test.each(formatsEmpty)("diffSON c пустыми вторыми файлами", (ext1, ext2, expected) => {
-  const file1 = getFixturePath(`file1.${ext1}`);
-  const file2 = getFixturePath(ext2);
+test("stylish throws on unknown node type", () => {
+  const tree = [{ key: "foo", type: "unknown", value: "bar" }];
 
-  expect(diff(file1, file2)).toEqual(readFile(expected));
+  expect(() => stylish(tree)).toThrow("unknown");
 });
