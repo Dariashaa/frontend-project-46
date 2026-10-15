@@ -2,7 +2,6 @@ import _ from "lodash";
 import parser from "./parsers.js";
 import choiseFormat from "../formatters/index.js";
 
-
 const logicDiff = (obj1, obj2) => {
   let result = [];
   const keys = _.union(Object.keys(obj1), Object.keys(obj2));
@@ -25,16 +24,16 @@ const logicDiff = (obj1, obj2) => {
   return result;
 };
 
-const diff = (filepath1, filepath2, format = 'stylish') => {
+const diff = (filepath1, filepath2, format = "stylish") => {
   const obj1 = parser(filepath1);
   const obj2 = parser(filepath2);
   const result = logicDiff(obj1, obj2);
   const style = choiseFormat(format);
-  
-  if ( _.isString(style)){
-    return style
-  } 
-  return style(result)
+
+  if (_.isString(style)) {
+    return style;
+  }
+  return style(result);
 };
 
 export default diff;
