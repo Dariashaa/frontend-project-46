@@ -28,6 +28,7 @@ cd frontend-project-46
 Пример работы библиотеки на json-файлах - https://asciinema.org/a/2N4RfPYi8wAzS6Lh
 Пример работы библиотеки на yaml-файлах - https://asciinema.org/a/Mj6WAv0FuiASeEu9
 Примем работы библиотеки с разным форматом стилизации вывода - https://asciinema.org/a/iJ0WvH7TLA0mRmEK
+Примем работы библиотеки с разным форматом стилизации вывода - https://asciinema.org/a/LqpJptF0mAOUukvv
 
 ---
 
