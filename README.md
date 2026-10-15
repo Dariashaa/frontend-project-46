@@ -19,6 +19,8 @@
 ```bash
 git clone https://github.com/Dariashaa/frontend-project-46.git
 cd frontend-project-46
+npm ci
+npm link
 ```
 
 ## Использование
